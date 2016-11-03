@@ -3,6 +3,7 @@ package com.dempe.sample.guava.cache;
 import com.google.common.base.Optional;
 import com.google.common.cache.*;
 import com.google.common.collect.Maps;
+import com.google.common.util.concurrent.ListenableFuture;
 import org.junit.Test;
 
 import java.util.Map;
@@ -270,6 +271,33 @@ public class GuavaCacheTest {
         LoadingCache<String, String> cache;
         cache = CacheBuilder.newBuilder()
                 .refreshAfterWrite(1, TimeUnit.MINUTES)
+                .build(loader);
+    }
+
+    @Test
+    public void cache_reLoad() {
+        CacheLoader<String, String> loader;
+        loader = new CacheLoader<String, String>() {
+            @Override
+            public String load(String key) {
+                return key.toUpperCase();
+            }
+
+            /**
+             * 重写reload方法可以定制自己的reload策略
+             * @param key
+             * @param oldValue
+             * @return
+             * @throws Exception
+             */
+            @Override
+            public ListenableFuture<String> reload(String key, String oldValue) throws Exception {
+                return super.reload(key, oldValue);
+            }
+        };
+
+        LoadingCache<String, String> cache;
+        cache = CacheBuilder.newBuilder()
                 .build(loader);
     }
 

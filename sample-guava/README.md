@@ -306,19 +306,23 @@ But if null value means something in your code, then you can make good use of th
     }
 ```
 
-### 7. Notes
-1.什么时候用get，什么时候用getUnchecked 
-官网文档说： 
->. If you have defined a CacheLoader that does not declare any checked exceptions then you can perform cache lookups using getUnchecked(K);   
-however care must be taken not to call getUnchecked on caches whose CacheLoaders declare checked exceptions.  
+
+### 7. 统计
+
+CacheBuilder.recordStats()用来开启Guava Cache的统计功能。统计打开后，Cache.stats()方法会返回CacheStats对象以提供如下统计信息：
+
+- hitRate()：缓存命中率；
+- averageLoadPenalty()：加载新值的平均时间，单位为纳秒；
+- evictionCount()：缓存项被回收的总数，不包括显式清除。
+
+此外，还有其他很多统计信息。这些统计信息对于调整缓存设置是至关重要的，在性能要求高的应用中我们建议密切关注这些数据。
+
+### 8. Notes
+1.什么时候用get，什么时候用getUnchecked
+官网文档说：
+>. If you have defined a CacheLoader that does not declare any checked exceptions then you can perform cache lookups using getUnchecked(K);
+however care must be taken not to call getUnchecked on caches whose CacheLoaders declare checked exceptions.
 
 字面意思是，如果你的CacheLoader没有定义任何checked Exception，那你可以使用getUnchecked。
-2.Guava Cache的超时机制不是精确的
-Guava Cache的超时机制是不精确的，例如你设置cache的缓存时间是30秒， 
-那它存活31秒、32秒，都是有可能的。 
-官网说： 
 
->Timed expiration is performed with periodic maintenance during writes and occasionally during reads, as discussed below.  
-Caches built with CacheBuilder do not perform cleanup and evict values "automatically," or instantly after a value expires, or anything of the sort.   
-Instead, it performs small amounts of maintenance during write operations, or during occasional read operations if writes are rare.  
 

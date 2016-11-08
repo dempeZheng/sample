@@ -34,6 +34,7 @@ public class GuavaCacheTest {
             // 当guava cache中不存在，则会调用load方法
             @Override
             public String load(String key) {
+                System.out.println("--------------" + key);
                 return key.toUpperCase();
             }
         };
@@ -41,18 +42,22 @@ public class GuavaCacheTest {
         LoadingCache<String, String> cache;
         cache = CacheBuilder
                 .newBuilder()
-                // 写数据1s后重新加载缓存
-                .refreshAfterWrite(1L, TimeUnit.SECONDS)
+                .refreshAfterWrite(4L, TimeUnit.SECONDS)
+                .expireAfterWrite(5L, TimeUnit.SECONDS)
                 .build(loader);
 
         assertEquals(0, cache.size());
-        cache.put("test", "test");
-        assertEquals("test", cache.getUnchecked("test"));
+//        cache.put("test", "test");
+//        assertEquals("test", cache.getUnchecked("test"));
         assertEquals("HELLO", cache.getUnchecked("hello"));
-        assertEquals(2, cache.size());
 
+        System.out.println("-------------------111111111111-----------");
         TimeUnit.SECONDS.sleep(2);
         assertEquals("TEST", cache.getUnchecked("test"));
+        cache.put("hello", "hello");
+        assertEquals("HELLO", cache.getUnchecked("hello"));
+        System.out.println("------------------");
+        System.out.println(cache.size());
 
     }
 

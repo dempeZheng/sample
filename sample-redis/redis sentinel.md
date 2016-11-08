@@ -16,6 +16,7 @@ Redis-Sentinel是Redis官方推荐的高可用性(HA)解决方案，当用Redis�
 
 ### Sentinel Leader选举算法Raft
 
+注意：Sentinel集群正常运行的时候每个节点epoch相同，当需要故障转移的时候会在集群中选出Leader执行故障转移操作。Sentinel采用了Raft协议实现了Sentinel间选举Leader的算法，不过也不完全跟论文描述的步骤一致。Sentinel集群运行过程中故障转移完成，所有Sentinel又会恢复平等。Leader仅仅是故障转移操作出现的角色。
 
 
 ### 生产环境推荐

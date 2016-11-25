@@ -59,6 +59,11 @@ public class PoolHttpClientManger {
         new IdleConnectionMonitorThread(cm).start();
     }
 
+
+    public static void main(String[] args) {
+
+    }
+
     private static class IdleConnectionMonitorThread extends Thread {
         private final HttpClientConnectionManager connMgr;
         private volatile boolean shutdown;

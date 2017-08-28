@@ -13,10 +13,7 @@
         <module>sample-redis</module>
         <module>sample-kryo</module>
         <module>sample-httpclient</module>
-        <module>sample-netty</module>
-        <module>sample-common</module>
         <module>sample-log</module>
-        <module>sample-thrift</module>
     </modules>
 
     <properties>
